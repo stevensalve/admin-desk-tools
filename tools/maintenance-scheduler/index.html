@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <title>Maintenance Scheduler - recurring maintenance with due dates (offline)</title>
+    <meta
+      name="description"
+      content="Recurring maintenance for equipment and premises with due and overdue lists. Runs in your browser; nothing is uploaded."
+    />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/app.css" />
+  </head>
+  <body>
+    <main class="container wide">
+      <header class="site">
+        <div>
+          <h1>Maintenance Scheduler</h1>
+          <p>Recurring maintenance with due and overdue lists.</p>
+        </div>
+        <span class="badge">Works offline - nothing leaves this device</span>
+      </header>
+
+      <section class="card" aria-labelledby="h-add">
+        <h2 id="h-add">1. Add maintenance tasks</h2>
+        <div class="grid">
+          <div><label for="a-asset">Asset or area</label><input type="text" id="a-asset" maxlength="80" /></div>
+          <div><label for="a-task">What to do</label><input type="text" id="a-task" maxlength="120" /></div>
+          <div><label for="a-every">Every</label><input type="number" id="a-every" value="3" min="1" max="999" /></div>
+          <div>
+            <label for="a-unit">Unit</label
+            ><select id="a-unit">
+              <option value="days">days</option>
+              <option value="weeks">weeks</option>
+              <option value="months" selected>months</option>
+              <option value="years">years</option>
+            </select>
+          </div>
+          <div><label for="a-last">Last done (blank if never)</label><input type="date" id="a-last" /></div>
+          <div><label for="a-first">First due (if never done)</label><input type="date" id="a-first" /></div>
+          <div><label for="a-owner">Owner</label><input type="text" id="a-owner" maxlength="60" /></div>
+        </div>
+        <div class="row"><button class="primary" id="add" type="button">Add task</button></div>
+        <details>
+          <summary>Add many at once</summary>
+          <label for="bulk">One per line: Asset, Task, Every (3 months / weekly / yearly), Last done, Owner</label>
+          <textarea id="bulk" class="mono" rows="6" spellcheck="false"></textarea>
+          <div class="row">
+            <button id="bulk-add" type="button">Add these</button><button id="demo" type="button">Fill with sample</button>
+          </div>
+        </details>
+        <p class="status" id="status" role="status"></p>
+      </section>
+
+      <section class="card" aria-labelledby="h-status">
+        <h2 id="h-status">2. What is due</h2>
+        <div class="grid">
+          <div><label for="today">Today</label><input type="date" id="today" /></div>
+          <div><label for="win">"Due soon" means within (days)</label><input type="number" id="win" value="14" min="0" max="365" /></div>
+        </div>
+        <p id="headline"></p>
+        <div class="table-wrap"><table id="t-tasks" hidden></table></div>
+      </section>
+
+      <section class="card" aria-labelledby="h-plan">
+        <h2 id="h-plan">3. Plan ahead and export</h2>
+        <div class="grid">
+          <div><label for="to">Show everything due up to</label><input type="date" id="to" /></div>
+        </div>
+        <p id="work"></p>
+        <div class="row">
+          <button id="csv" type="button">Status CSV</button>
+          <button id="hist" type="button">Done-history CSV</button>
+          <button id="ics" type="button">Calendar file (.ics)</button>
+          <button id="save" type="button">Save plan (.json)</button>
+          <label class="file">Open saved plan<input type="file" id="open" accept=".json,application/json" /></label>
+        </div>
+        <p class="hint">Nothing is stored in the browser. Save the plan to a file and open it next time.</p>
+        <p class="status" id="out-status" role="status"></p>
+      </section>
+
+      <footer class="site"><a href="../../index.html">All tools</a> - MIT licensed</footer>
+    </main>
+    <script src="js/common.js"></script>
+    <script src="js/core.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

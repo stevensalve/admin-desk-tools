@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <title>Meeting Room Planner - book rooms without clashes (offline)</title>
+    <meta
+      name="description"
+      content="Book meeting rooms on a day grid, catch double bookings and print the day sheet. Runs in your browser; nothing is uploaded."
+    />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/app.css" />
+  </head>
+  <body>
+    <main class="container wide">
+      <header class="site">
+        <div>
+          <h1>Meeting Room Planner</h1>
+          <p>Book rooms, catch clashes, print the day sheet.</p>
+        </div>
+        <span class="badge">Works offline - nothing leaves this device</span>
+      </header>
+
+      <section class="card noprint" aria-labelledby="h-set">
+        <h2 id="h-set">1. Rooms and hours</h2>
+        <div class="cols2">
+          <div>
+            <label for="rooms">Rooms, one per line: name, seats</label
+            ><textarea id="rooms" rows="5">
+Board room, 12
+Huddle, 4
+Training hall, 40</textarea>
+          </div>
+          <div>
+            <div class="grid">
+              <div><label for="open">Opens</label><input type="time" id="open" value="08:00" /></div>
+              <div><label for="close">Closes</label><input type="time" id="close" value="20:00" /></div>
+              <div>
+                <label for="buffer">Buffer between meetings (min)</label><input type="number" id="buffer" value="0" min="0" max="60" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="status" id="set-status" role="status"></p>
+      </section>
+
+      <section class="card noprint" aria-labelledby="h-book">
+        <h2 id="h-book">2. Book a room</h2>
+        <div class="grid">
+          <div><label for="b-date">Date</label><input type="date" id="b-date" /></div>
+          <div><label for="b-start">From</label><input type="time" id="b-start" value="10:00" /></div>
+          <div><label for="b-end">To</label><input type="time" id="b-end" value="11:00" /></div>
+          <div><label for="b-att">People</label><input type="number" id="b-att" value="4" min="1" /></div>
+          <div>
+            <label for="b-room">Room</label
+            ><select id="b-room"></select>
+          </div>
+          <div><label for="b-title">Meeting</label><input type="text" id="b-title" maxlength="80" /></div>
+          <div><label for="b-org">Booked by</label><input type="text" id="b-org" maxlength="60" /></div>
+          <div>
+            <label for="b-rep">Repeat</label
+            ><select id="b-rep">
+              <option value="">Does not repeat</option>
+              <option value="daily">Every weekday</option>
+              <option value="weekly">Every week</option>
+            </select>
+          </div>
+          <div><label for="b-count">Times</label><input type="number" id="b-count" value="4" min="2" max="60" /></div>
+        </div>
+        <div class="row">
+          <button class="primary" id="book" type="button">Book</button><button id="suggest" type="button">Which rooms are free?</button>
+        </div>
+        <p class="status" id="status" role="status"></p>
+        <p id="suggestion"></p>
+      </section>
+
+      <section class="card" aria-labelledby="h-day">
+        <h2 id="h-day">3. The day</h2>
+        <div class="grid noprint">
+          <div><label for="v-date">Day</label><input type="date" id="v-date" /></div>
+        </div>
+        <div class="table-wrap"><table class="grid-day" id="t-grid"></table></div>
+        <h3>Bookings</h3>
+        <div class="table-wrap"><table id="t-list" hidden></table></div>
+        <div class="row noprint">
+          <button id="csv" type="button">All bookings CSV</button>
+          <button id="ics" type="button">Calendar file (.ics)</button>
+          <button id="print" type="button">Print day sheet</button>
+          <button id="save" type="button">Save plan (.json)</button>
+          <label class="file">Open saved plan<input type="file" id="open-file" accept=".json,application/json" /></label>
+        </div>
+        <p class="hint noprint">Nothing is stored in the browser. Save the plan to a file and open it next time.</p>
+        <p class="status" id="out-status" role="status"></p>
+      </section>
+
+      <footer class="site"><a href="../../index.html">All tools</a> - MIT licensed</footer>
+    </main>
+    <script src="js/common.js"></script>
+    <script src="js/core.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

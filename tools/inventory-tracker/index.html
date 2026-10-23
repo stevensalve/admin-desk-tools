@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <title>Inventory &amp; Stock Tracker - low stock and reorder (offline)</title>
+    <meta
+      name="description"
+      content="Track stock in and out, spot low stock and get reorder suggestions with values. Runs in your browser; nothing is uploaded."
+    />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/app.css" />
+  </head>
+  <body>
+    <main class="container wide">
+      <header class="site">
+        <div>
+          <h1>Inventory &amp; Stock Tracker</h1>
+          <p>Stock levels, low-stock alerts and reorder suggestions.</p>
+        </div>
+        <span class="badge">Works offline - nothing leaves this device</span>
+      </header>
+
+      <section class="card" aria-labelledby="h-in">
+        <h2 id="h-in">1. Load your items and movements</h2>
+        <div class="cols2">
+          <div>
+            <label class="dropzone" id="drop-items"
+              >Item list (Excel or CSV)<input type="file" id="file-items" accept=".xlsx,.xls,.csv,.tsv"
+            /></label>
+            <p class="status" id="st-items" role="status"></p>
+          </div>
+          <div>
+            <label class="dropzone" id="drop-moves"
+              >Stock movements (Excel or CSV, optional)<input type="file" id="file-moves" accept=".xlsx,.xls,.csv,.tsv"
+            /></label>
+            <p class="status" id="st-moves" role="status"></p>
+          </div>
+        </div>
+        <p class="hint">
+          Items: Item Code, Item, Category, Unit, Opening Stock, Reorder Level, Reorder Qty, Unit Cost, Supplier, Location. Movements: Date,
+          Item Code, Type (In / Out / Adjust), Qty, Note.
+        </p>
+        <div class="grid">
+          <div><label for="today">Stock as of</label><input type="date" id="today" /></div>
+          <div>
+            <label for="usage">Work out daily usage from the last (days)</label
+            ><input type="number" id="usage" value="30" min="1" max="365" />
+          </div>
+        </div>
+        <div class="row"><button id="demo" type="button">Try with sample data</button></div>
+      </section>
+
+      <section class="card" aria-labelledby="h-mv">
+        <h2 id="h-mv">2. Record a movement</h2>
+        <div class="grid">
+          <div>
+            <label for="m-sku">Item</label
+            ><select id="m-sku"></select>
+          </div>
+          <div>
+            <label for="m-type">Type</label
+            ><select id="m-type">
+              <option value="out">Issue (out)</option>
+              <option value="in">Receipt (in)</option>
+              <option value="adjust">Adjustment (+ or -)</option>
+            </select>
+          </div>
+          <div><label for="m-qty">Quantity</label><input type="number" id="m-qty" step="any" /></div>
+          <div><label for="m-date">Date</label><input type="date" id="m-date" /></div>
+          <div><label for="m-note">Note</label><input type="text" id="m-note" maxlength="120" /></div>
+        </div>
+        <div class="row">
+          <button id="m-add" type="button" class="primary">Add movement</button
+          ><button id="m-csv" type="button">Download all movements (CSV)</button>
+        </div>
+        <p class="status" id="m-status" role="status"></p>
+      </section>
+
+      <section class="card" aria-labelledby="h-res">
+        <h2 id="h-res">3. Stock and reorder</h2>
+        <div id="results" hidden>
+          <p id="headline"></p>
+          <div class="table-wrap"><table id="t-stock"></table></div>
+          <h3>Reorder list by supplier</h3>
+          <div id="reorder"></div>
+          <h3>By category</h3>
+          <div class="table-wrap"><table id="t-cat"></table></div>
+          <ul id="notes"></ul>
+          <div class="row">
+            <button class="primary" id="csv-stock" type="button">Stock report CSV</button
+            ><button id="csv-reorder" type="button">Reorder list CSV</button>
+          </div>
+        </div>
+      </section>
+
+      <footer class="site"><a href="../../index.html">All tools</a> - MIT licensed - <a href="vendor/README.md">SheetJS</a></footer>
+    </main>
+    <script src="vendor/xlsx.full.min.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/core.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <title>Shift Roster Planner - fair shifts with minimum cover (offline)</title>
+    <meta
+      name="description"
+      content="Build a fair shift roster that meets minimum cover and rest rules. Runs in your browser; nothing is uploaded."
+    />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/app.css" />
+  </head>
+  <body>
+    <main class="container wide">
+      <header class="site">
+        <div>
+          <h1>Shift Roster Planner</h1>
+          <p>A fair shift roster that meets cover and rest rules.</p>
+        </div>
+        <span class="badge">Works offline - nothing leaves this device</span>
+      </header>
+
+      <section class="card noprint" aria-labelledby="h-in">
+        <h2 id="h-in">1. Team, shifts and rules</h2>
+        <div class="cols2">
+          <div>
+            <label for="staff"
+              >People, one per line (optional: <code>; off=sun</code> weekly off, <code>; leave=2026-11-03..2026-11-05</code>)</label
+            >
+            <textarea id="staff" class="mono" rows="8" spellcheck="false"></textarea>
+          </div>
+          <div>
+            <label for="shifts">Shifts: CODE, Name, start-end, people needed</label>
+            <textarea id="shifts" class="mono" rows="8" spellcheck="false"></textarea>
+          </div>
+        </div>
+        <div class="grid">
+          <div><label for="start">First day</label><input type="date" id="start" /></div>
+          <div><label for="days">Number of days</label><input type="number" id="days" value="14" min="1" max="62" /></div>
+          <div><label for="consec">Most days in a row</label><input type="number" id="consec" value="6" min="1" max="14" /></div>
+          <div><label for="week">Most shifts in a week (Mon-Sun)</label><input type="number" id="week" value="6" min="1" max="7" /></div>
+          <div>
+            <label for="rest">Least rest between shifts (hours)</label><input type="number" id="rest" value="11" min="0" max="24" />
+          </div>
+        </div>
+        <div class="row">
+          <button class="primary" id="gen" type="button">Make the roster</button
+          ><button id="demo" type="button">Fill with sample team</button>
+        </div>
+        <p class="status" id="status" role="status"></p>
+      </section>
+
+      <section class="card" aria-labelledby="h-roster">
+        <h2 id="h-roster">2. Roster</h2>
+        <p class="hint noprint">You can change any cell by hand. The checks below update at once.</p>
+        <div class="table-wrap"><table class="roster" id="t-roster" hidden></table></div>
+        <h3>Checks</h3>
+        <ul id="problems"></ul>
+        <h3>Fairness</h3>
+        <div class="table-wrap"><table id="t-stats" hidden></table></div>
+        <div class="row noprint">
+          <button class="primary" id="csv" type="button">Roster CSV</button><button id="print" type="button">Print</button>
+        </div>
+      </section>
+
+      <footer class="site"><a href="../../index.html">All tools</a> - MIT licensed</footer>
+    </main>
+    <script src="js/common.js"></script>
+    <script src="js/core.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

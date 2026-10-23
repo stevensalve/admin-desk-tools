@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <title>Visitor Log &amp; Passes - reception register (offline)</title>
+    <meta
+      name="description"
+      content="Check visitors in and out, print visitor passes, and see who is on site. Runs in your browser; nothing is uploaded."
+    />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/app.css" />
+  </head>
+  <body>
+    <main class="container wide">
+      <header class="site">
+        <div>
+          <h1>Visitor Log &amp; Passes</h1>
+          <p>Check visitors in and out, print passes, and see who is inside.</p>
+        </div>
+        <span class="badge">Works offline - nothing leaves this device</span>
+      </header>
+
+      <section class="card" aria-labelledby="h-in">
+        <h2 id="h-in">1. Check a visitor in</h2>
+        <div class="grid">
+          <div><label for="name">Visitor name</label><input type="text" id="name" maxlength="80" autocomplete="off" /></div>
+          <div><label for="company">Company</label><input type="text" id="company" maxlength="80" autocomplete="off" /></div>
+          <div><label for="phone">Mobile number</label><input type="tel" id="phone" maxlength="20" autocomplete="off" /></div>
+          <div><label for="host">Meeting whom</label><input type="text" id="host" maxlength="80" autocomplete="off" /></div>
+          <div>
+            <label for="purpose">Purpose</label
+            ><select id="purpose"></select>
+          </div>
+          <div><label for="vehicle">Vehicle number</label><input type="text" id="vehicle" maxlength="15" autocomplete="off" /></div>
+          <div>
+            <label for="idtype">ID shown</label
+            ><select id="idtype"></select>
+          </div>
+          <div><label for="idnum">ID number</label><input type="text" id="idnum" maxlength="20" autocomplete="off" /></div>
+        </div>
+        <p class="hint">Only the last four characters of an ID number are kept.</p>
+        <div class="row">
+          <button class="primary" id="checkin" type="button">Check in and print pass</button
+          ><button id="checkin-only" type="button">Check in without a pass</button>
+        </div>
+        <p class="status" id="status" role="status"></p>
+      </section>
+
+      <section class="card" aria-labelledby="h-site">
+        <h2 id="h-site">2. On site now</h2>
+        <p id="site-count"></p>
+        <div class="table-wrap"><table id="t-site" hidden></table></div>
+        <div class="grid">
+          <div>
+            <label for="limit">Warn when someone has been inside more than (hours)</label
+            ><input type="number" id="limit" value="4" min="1" max="24" />
+          </div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="h-log">
+        <h2 id="h-log">3. Day log</h2>
+        <div class="grid">
+          <div><label for="day">Day</label><input type="date" id="day" /></div>
+        </div>
+        <p id="day-summary"></p>
+        <div class="table-wrap"><table id="t-day" hidden></table></div>
+        <div class="row">
+          <button id="csv" type="button">Day log CSV</button>
+          <button id="csv-all" type="button">Whole log CSV</button>
+          <button id="save" type="button">Save log (.json)</button>
+          <label class="file">Open saved log<input type="file" id="open" accept=".json,application/json" /></label>
+        </div>
+        <p class="hint">
+          Nothing is stored in the browser. Save the log to a file at the end of the day, and open it again next time. The page warns you if
+          there is unsaved work.
+        </p>
+        <p class="status" id="out-status" role="status"></p>
+      </section>
+
+      <footer class="site"><a href="../../index.html">All tools</a> - MIT licensed - <a href="vendor/README.md">pdf-lib</a></footer>
+    </main>
+    <script src="vendor/pdf-lib.min.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/core.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

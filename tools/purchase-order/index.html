@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <title>Purchase Order Maker - GST purchase orders as PDF (offline)</title>
+    <meta
+      name="description"
+      content="Make GST purchase orders with vendor terms, delivery details and a clean PDF. Runs in your browser; nothing is uploaded."
+    />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/app.css" />
+  </head>
+  <body>
+    <main class="container wide">
+      <header class="site">
+        <div>
+          <h1>Purchase Order Maker</h1>
+          <p>GST purchase orders with terms and a clean PDF.</p>
+        </div>
+        <span class="badge">Works offline - nothing leaves this device</span>
+      </header>
+
+      <section class="card" aria-labelledby="h-parties">
+        <h2 id="h-parties">1. Order and parties</h2>
+        <div class="grid">
+          <div><label for="number">PO number</label><input type="text" id="number" maxlength="40" /></div>
+          <div><label for="date">PO date</label><input type="date" id="date" /></div>
+          <div><label for="delivery">Deliver by (optional)</label><input type="date" id="delivery" /></div>
+        </div>
+        <div class="cols2">
+          <div>
+            <h3>Vendor</h3>
+            <label for="v-name">Name</label><input type="text" id="v-name" maxlength="120" /> <label for="v-gstin">GSTIN</label
+            ><input type="text" id="v-gstin" maxlength="15" autocomplete="off" /> <label for="v-state">State</label
+            ><select id="v-state"></select>
+            <label for="v-addr">Address</label><textarea id="v-addr" rows="3" maxlength="400"></textarea>
+          </div>
+          <div>
+            <h3>Buyer (your company)</h3>
+            <label for="b-name">Name</label><input type="text" id="b-name" maxlength="120" /> <label for="b-gstin">GSTIN</label
+            ><input type="text" id="b-gstin" maxlength="15" autocomplete="off" /> <label for="b-state">State</label
+            ><select id="b-state"></select>
+            <label for="b-addr">Billing address</label><textarea id="b-addr" rows="3" maxlength="400"></textarea>
+          </div>
+        </div>
+        <label for="deliver">Deliver to (if different from the billing address)</label>
+        <textarea id="deliver" rows="2" maxlength="400"></textarea>
+        <p class="hint" id="tax-kind"></p>
+      </section>
+
+      <section class="card" aria-labelledby="h-items">
+        <h2 id="h-items">2. Items</h2>
+        <div class="table-wrap">
+          <table class="items">
+            <thead>
+              <tr>
+                <th scope="col">Description</th>
+                <th scope="col">HSN/SAC</th>
+                <th scope="col">Qty</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Rate</th>
+                <th scope="col">Disc %</th>
+                <th scope="col">GST %</th>
+                <th scope="col">Amount</th>
+                <th scope="col"><span class="sr">Remove</span></th>
+              </tr>
+            </thead>
+            <tbody id="items"></tbody>
+          </table>
+        </div>
+        <div class="row"><button id="add" type="button">Add item</button></div>
+        <div class="grid">
+          <div>
+            <label for="freight">Freight and handling (Rs., optional)</label
+            ><input type="number" id="freight" value="0" min="0" step="any" />
+          </div>
+          <div>
+            <label for="freight-gst">GST on freight</label
+            ><select id="freight-gst"></select>
+          </div>
+        </div>
+        <label class="inline"><input type="checkbox" id="round" checked /> Round the total to the nearest rupee</label>
+      </section>
+
+      <section class="card" aria-labelledby="h-out">
+        <h2 id="h-out">3. Totals and download</h2>
+        <table class="totals">
+          <tbody id="totals"></tbody>
+        </table>
+        <p id="words"><strong></strong></p>
+        <div class="cols2">
+          <div><label for="terms">Terms and conditions</label><textarea id="terms" rows="5" maxlength="1500"></textarea></div>
+          <div><label for="notes">Notes</label><textarea id="notes" rows="5" maxlength="1000"></textarea></div>
+        </div>
+        <ul id="problems"></ul>
+        <div class="row">
+          <button class="primary" id="pdf" type="button">Download PDF</button>
+          <button id="csv" type="button">Line items CSV</button>
+          <button id="next" type="button">Next PO number</button>
+          <button id="save" type="button">Save (.json)</button>
+          <label class="file">Open saved file<input type="file" id="open" accept=".json,application/json" /></label>
+        </div>
+        <p class="status" id="status" role="status"></p>
+      </section>
+
+      <footer class="site"><a href="../../index.html">All tools</a> - MIT licensed - <a href="vendor/README.md">pdf-lib</a></footer>
+    </main>
+    <script src="vendor/pdf-lib.min.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/core.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
