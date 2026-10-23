@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <title>Contract &amp; Renewal Tracker - never miss a notice date (offline)</title>
+    <meta
+      name="description"
+      content="Track contract end dates, notice periods and auto-renewals, with a calendar file. Runs in your browser; nothing is uploaded."
+    />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/app.css" />
+  </head>
+  <body>
+    <main class="container wide">
+      <header class="site">
+        <div>
+          <h1>Contract &amp; Renewal Tracker</h1>
+          <p>End dates, notice deadlines and auto-renewals in one place.</p>
+        </div>
+        <span class="badge">Works offline - nothing leaves this device</span>
+      </header>
+
+      <section class="card" aria-labelledby="h-in">
+        <h2 id="h-in">1. Your contracts</h2>
+        <label class="dropzone" id="drop"
+          >Drop an Excel or CSV list of contracts here, or click to choose<input type="file" id="file" accept=".xlsx,.xls,.csv,.tsv"
+        /></label>
+        <p class="hint">
+          Columns: Contract, Vendor, Type, Start Date, End Date, Annual Value, Notice Days, Auto Renew (Yes/No), Owner. Only Contract and
+          End Date are required.
+        </p>
+        <div class="grid">
+          <div><label for="today">Today</label><input type="date" id="today" /></div>
+          <div><label for="alert">Alert window (days)</label><input type="number" id="alert" value="60" min="1" max="730" /></div>
+        </div>
+        <div class="row"><button id="demo" type="button">Try with sample data</button></div>
+        <p class="status" id="status" role="status"></p>
+      </section>
+
+      <section class="card" aria-labelledby="h-res">
+        <h2 id="h-res">2. What needs attention</h2>
+        <div id="results" hidden>
+          <p id="headline"></p>
+          <div class="table-wrap"><table id="t-contracts"></table></div>
+          <div class="row">
+            <button class="primary" id="ics" type="button">Calendar file (.ics)</button><button id="csv" type="button">CSV</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="h-rem">
+        <h2 id="h-rem">3. Reminders for contract owners</h2>
+        <div class="row">
+          <button id="make" type="button" class="primary">Write reminders</button><button id="copy" type="button">Copy</button>
+        </div>
+        <label for="rem-out">One block per owner</label>
+        <textarea id="rem-out" class="out" rows="10" readonly></textarea>
+        <p class="status" id="rem-status" role="status"></p>
+      </section>
+
+      <footer class="site"><a href="../../index.html">All tools</a> - MIT licensed - <a href="vendor/README.md">SheetJS</a></footer>
+    </main>
+    <script src="vendor/xlsx.full.min.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/core.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
